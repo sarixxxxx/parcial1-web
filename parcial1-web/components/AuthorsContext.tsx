@@ -46,6 +46,7 @@ interface AuthorContextType {
         description_new: string,
         image_new: string
     ) => void;
+    deleteAuthor: (authorId: number) => void;
 }
 
 
@@ -76,29 +77,32 @@ const AuthorsProvider =({ children }: AuthorsProviderProps) =>{
         setAuthors([...authors, newAuthor]);
     }
 
-        const editAuthor = (indexAuthor:number, birthdate_new: string, name_new: string, description_new: string, image_new: string) =>{
-            const replacedAuthors = authors.map( (author) =>{
-                if (indexAuthor ===author.id){
-                    return {
-                    ...author,
-                    birthDate: birthdate_new,
-                    name: name_new,
-                    description: description_new,
-                    image: image_new
-                    };
-                } else{
-                    return author;
-                }
+    const editAuthor = (indexAuthor:number, birthdate_new: string, name_new: string, description_new: string, image_new: string) =>{
+        const replacedAuthors = authors.map( (author) =>{
+            if (indexAuthor ===author.id){
+                return {
+                ...author,
+                birthDate: birthdate_new,
+                name: name_new,
+                description: description_new,
+                image: image_new
+                };
+            } else{
+                return author;
+            }
 
-            })
-            setAuthors(replacedAuthors);
-        }
-
-        return  (
-            <AuthorContext.Provider value={{authors, addAuthor, editAuthor}}>
-                {children}
-            </AuthorContext.Provider>
-        )
+        })
+        setAuthors(replacedAuthors);
+    }
+    const deleteAuthor = (authorId:number) =>{
+        const updatedAuthors = authors.filter(author => author.id !== authorId);
+        setAuthors(updatedAuthors);
+    }
+    return  (
+        <AuthorContext.Provider value={{authors, addAuthor, editAuthor, deleteAuthor}}>
+            {children}
+        </AuthorContext.Provider>
+    )
     }
 
 export const useAuthors = () => {

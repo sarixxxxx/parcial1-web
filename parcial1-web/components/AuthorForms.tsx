@@ -1,4 +1,5 @@
 "use client";
+/* eslint-disable @next/next/no-img-element */
 import {useState} from "react";
 import { useAuthors } from './AuthorsContext'
 import { navigate } from "next/dist/client/components/segment-cache/navigation";
@@ -92,118 +93,109 @@ export default function AuthorForms(){
     }
 
     const isValid = Object.keys(validateAll(form)).length===0;
+
     return (
-        <form onSubmit={handleSubmit} className="px-6 py-6 space-y-5">
-            <div className="space-y-2">
-                <label htmlFor="name" className="block text-sm font-medium">
-                    Nombre
-                </label>
-                <input
-                    id="name" 
-                    name="name" 
-                    type="text" 
-                    value={form.name} 
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    aria-invalid={!!(touched.name &&errors.name)}
-                    aria-describedby={touched.name &&errors.name?"name-error": undefined}
-                    placeholder="Ingrese el nombre del autor" 
-                    className="w-full rounded-lg border border-slate">
-                </input>
-                {touched.name && errors.name &&(
-                    <p id="name-error" role="alert" className="text-sm text-red-400">
-                        {errors.name}
-                    </p>
-                )}
-            </div>
-            <div className="space-y-2">
-                <label htmlFor="birthDate" className="block text-sm font-medium">
-                    Fecha de nacimiento
-                </label>
-                <input
-                    id="birthDate" 
-                    name="birthDate" 
-                    type="text" 
-                    value={form.birthDate} 
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    aria-invalid={!!(touched.birthDate &&errors.birthDate)}
-                    aria-describedby={touched.birthDate &&errors.birthDate?"name-error": undefined}
-                    placeholder="Ingrese la fecha de nacimiento del autor" 
-                    className="w-full rounded-lg border border-slate">
-                </input>
-                {touched.birthDate && errors.birthDate &&(
-                    <p id="name-error" role="alert" className="text-sm text-red-400">
-                        {errors.birthDate}
-                    </p>
-                )}
-            </div>
-            <div className="space-y-2">
-                <label htmlFor="description" className="block text-sm font-medium">
-                    Descripción
-                </label>
-                <input
-                    id="description" 
-                    name="description" 
-                    type="text" 
-                    value={form.description} 
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    aria-invalid={!!(touched.description &&errors.description)}
-                    aria-describedby={touched.description &&errors.description?"name-error": undefined}
-                    placeholder="Ingrese la descripción del autor" 
-                    className="w-full rounded-lg border border-slate">
-                </input>
-                {touched.description && errors.description &&(
-                    <p id="name-error" role="alert" className="text-sm text-red-400">
-                        {errors.description}
-                    </p>
-                )}
-            </div>
-            <div className="space-y-2">
-                <label htmlFor="image" className="block text-sm font-medium">
-                    Imagen
-                </label>
-                <input
-                    id="image" 
-                    name="image" 
-                    type="text" 
-                    value={form.image} 
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    aria-invalid={!!(touched.image &&errors.image)}
-                    aria-describedby={touched.image &&errors.image?"name-error": undefined}
-                    placeholder="Ingrese la fecha de nacimiento del autor" 
-                    className="w-full rounded-lg border border-slate">
-                </input>
-                {touched.image && errors.image &&(
-                    <p id="name-error" role="alert" className="text-sm text-red-400">
-                        {errors.image}
-                    </p>
-                )}
-            </div>
-
-            <button 
-            type="submit"
-            disabled={!isValid}
-            className="inline-flex items-center justify-center rounded-lg bg-blue-600 px-4 py-6">
-                Guardar
-            </button>
-            <div className="rounded-lg border border-slate-700 bg-slate-900/40 p-4">
-                <h1 className="text-sm text-black mb-3">Vista previa</h1>
-
+        <form onSubmit={handleSubmit} className="card max-w-3xl mx-auto p-6 flex flex-col md:flex-row gap-6 items-start">
+            <div className="md:w-1/3 w-full flex flex-col items-center text-center">
                 <img
                     src={form.image || "https://via.placeholder.com/150"}
                     alt="preview autor"
-                    className="w-32 h-32 object-cover rounded mb-3"
-                    onError={(e) => {
-                        e.currentTarget.src = "https://via.placeholder.com/150";
-                    }}
+                    className="w-32 h-32 object-cover rounded-full mb-4"
+                    onError={(e) => { e.currentTarget.src = "https://via.placeholder.com/150"; }}
                 />
+                <h2 className="text-lg font-semibold">{form.name || "Nuevo autor"}</h2>
+                <p className="text-sm text-slate-400">{form.birthDate || "YYYY-MM-DD"}</p>
+                <p className="mt-2 text-sm text-slate-500">{form.description ? form.description.substring(0,80) : "Descripción breve..."}</p>
+            </div>
 
-                <p className="mb-1 text-slate-300">Nombre: {form.name || "···"}</p>
-                <p className="mb-1 text-slate-300">Fecha: {form.birthDate || "···"}</p>
-                <p className="mb-1 text-slate-300">Descripción: {form.description || "···"}</p>
+            <div className="md:w-2/3 w-full">
+                <div className="space-y-4">
+                    <div>
+                        <label htmlFor="name" className="block text-sm font-medium text-slate-700">Nombre</label>
+                        <input
+                            id="name"
+                            name="name"
+                            type="text"
+                            value={form.name}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            placeholder="Ingrese el nombre del autor"
+                            className="mt-1 w-full rounded-md border border-slate-200 px-3 py-2 bg-transparent"
+                            aria-invalid={!!(touched.name && errors.name)}
+                            aria-describedby={touched.name && errors.name ? "name-error" : undefined}
+                        />
+                        {touched.name && errors.name && (
+                            <p id="name-error" role="alert" className="text-sm text-red-500 mt-1">{errors.name}</p>
+                        )}
+                    </div>
+
+                    <div>
+                        <label htmlFor="birthDate" className="block text-sm font-medium text-slate-700">Fecha de nacimiento</label>
+                        <input
+                            id="birthDate"
+                            name="birthDate"
+                            type="text"
+                            value={form.birthDate}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            placeholder="YYYY-MM-DD"
+                            className="mt-1 w-full rounded-md border border-slate-200 px-3 py-2 bg-transparent"
+                            aria-invalid={!!(touched.birthDate && errors.birthDate)}
+                            aria-describedby={touched.birthDate && errors.birthDate ? "birthDate-error" : undefined}
+                        />
+                        {touched.birthDate && errors.birthDate && (
+                            <p id="birthDate-error" role="alert" className="text-sm text-red-500 mt-1">{errors.birthDate}</p>
+                        )}
+                    </div>
+
+                    <div>
+                        <label htmlFor="description" className="block text-sm font-medium text-slate-700">Descripción</label>
+                        <input
+                            id="description"
+                            name="description"
+                            type="text"
+                            value={form.description}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            placeholder="Ingrese la descripción del autor"
+                            className="mt-1 w-full rounded-md border border-slate-200 px-3 py-2 bg-transparent"
+                            aria-invalid={!!(touched.description && errors.description)}
+                            aria-describedby={touched.description && errors.description ? "description-error" : undefined}
+                        />
+                        {touched.description && errors.description && (
+                            <p id="description-error" role="alert" className="text-sm text-red-500 mt-1">{errors.description}</p>
+                        )}
+                    </div>
+
+                    <div>
+                        <label htmlFor="image" className="block text-sm font-medium text-slate-700">Imagen (URL)</label>
+                        <input
+                            id="image"
+                            name="image"
+                            type="text"
+                            value={form.image}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            placeholder="https://ejemplo.com/imagen.jpg"
+                            className="mt-1 w-full rounded-md border border-slate-200 px-3 py-2 bg-transparent"
+                            aria-invalid={!!(touched.image && errors.image)}
+                            aria-describedby={touched.image && errors.image ? "image-error" : undefined}
+                        />
+                        {touched.image && errors.image && (
+                            <p id="image-error" role="alert" className="text-sm text-red-500 mt-1">{errors.image}</p>
+                        )}
+                    </div>
+
+                    <div className="flex justify-end">
+                        <button
+                            type="submit"
+                            disabled={!isValid}
+                            className={`inline-flex items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition-colors ${isValid ? 'bg-blue-600 hover:bg-blue-700 text-white' : 'bg-slate-300 text-slate-500 cursor-not-allowed'}`}
+                        >
+                            Guardar
+                        </button>
+                    </div>
+                </div>
             </div>
         </form>
     )
