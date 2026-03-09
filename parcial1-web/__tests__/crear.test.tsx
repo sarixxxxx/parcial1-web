@@ -2,6 +2,7 @@ import {render,screen} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import CrearAuthor from '@/app/crear/page';
 import test, { describe} from 'node:test';
+import { expect} from '@jest/globals';
 
 const setup= () =>{
     const user = userEvent.setup();
