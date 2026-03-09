@@ -40,10 +40,10 @@ function Card({image, name, description, onDelete, handleOpen}: CardProps){
 
 export default function AuthorsList(){
 
-    const { authors, editAuthor , deleteAuthor} = useAuthors();
+    const { authors, deleteAuthor} = useAuthors();
     const [open, setOpen] = useState(false);
     const [selectedAuthor, setSelectedAuthor] = useState<Author|null>(null);
-
+    const [searchedName, setSearchedName]= useState("");
     const handleClose = () => {
         setOpen(false);
         setSelectedAuthor(null)
@@ -55,7 +55,11 @@ export default function AuthorsList(){
         console.log("id autor", selectedAuthor);
     }
 
-    const listAuthors = authors.map(
+    const filteredAuthors= authors.filter( 
+        author=> author.name.toLowerCase().includes(searchedName.toLowerCase())
+    )
+
+    const listAuthors = filteredAuthors.map(
         author => (
             <Card
                 key={author.id}
@@ -68,15 +72,40 @@ export default function AuthorsList(){
         )
     );
 
+    function handleChange(e:React.ChangeEvent<HTMLInputElement>){
+        const {name,value}=e.target;
+        setSearchedName(value);
+    }
+
     return (
         <div>
+            <div className="space-y-4">
+                <div>
+                    <label htmlFor="buscar" className="block text-sm font-medium text-slate-700"> Buscar autor por nombre</label>
+                    <input
+                        id="buscar"
+                        name="buscar"
+                        type="text"
+                        value={searchedName}
+                        onChange= {handleChange}
+                        placeholder='Busque los autores por nombre'
+                        className="mt-1 w-full rounded-md border border-slate-200 px-3 py-2 bg-transparent"
+                        />
+                </div>
+            </div>
+            { filteredAuthors.length>0 &&
             <div className="cards-container">{listAuthors}</div>
+            
+            }
+            {filteredAuthors.length===0 &&
+                <h1 id="filter-error" role="alert" className="text-sm text-red-500 mt-1" style={{color: '#dc2626'}}> No hay autores que coincidan con tu búsqueda :(</h1>
+            }
             {open && selectedAuthor !== null && (
                 <AuthorEditModal
                     isOpen={open}
                     handleClose={handleClose}
                     author={selectedAuthor}
-                />
+                />  
             )}
         </div>
     )

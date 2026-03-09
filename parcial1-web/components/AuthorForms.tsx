@@ -1,6 +1,6 @@
 "use client";
 /* eslint-disable @next/next/no-img-element */
-import {useEffect, useState} from "react";
+import { useState} from "react";
 import { Author, useAuthors } from './AuthorsContext'
 import { useRouter } from "next/navigation";
 
