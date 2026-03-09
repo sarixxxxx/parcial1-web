@@ -42,7 +42,7 @@ export default function AuthorsList(){
 
     const { authors, editAuthor , deleteAuthor} = useAuthors();
     const [open, setOpen] = useState(false);
-    const [selectedAuthor, setSelectedAuthor] = useState<number|null>(null);
+    const [selectedAuthor, setSelectedAuthor] = useState<Author|null>(null);
 
     const handleClose = () => {
         setOpen(false);
