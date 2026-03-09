@@ -9,21 +9,29 @@ interface AuthorEditModalProps{
     author: Author
 }
 
+const modalSx = {
+  display: 'flex' as const,
+  alignItems: 'center',
+  justifyContent: 'center',
+};
+
 const style = {
-  position: "absolute" as const,
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
   width: 700,
+  height: 500,
+  display: 'flex' as const,
+  flexDirection: 'column' as const,
+  alignItems: 'center',
+  justifyContent: 'center',
   bgcolor: "background.paper",
   borderRadius: 2,
   boxShadow: 24,
-  p: 2
+  p: 2,
+  overflow: 'auto'
 };
 
 const AuthorEditModal = ({isOpen, handleClose, author}:AuthorEditModalProps) => {
   return (
-    <Modal open={isOpen} onClose={handleClose}>
+    <Modal open={isOpen} onClose={handleClose} sx={modalSx}>
       <Box sx={style}>
         <AuthorForms
           authorToEdit={author}
