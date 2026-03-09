@@ -1,7 +1,7 @@
 "use client";
 import { use, useState } from 'react';
 import { Author, useAuthors } from './AuthorsContext'
-import { Trash2 , Pencil} from 'lucide-react';
+import { Trash2 , Pencil, Search} from 'lucide-react';
 import AuthorEditModal from './AuthorEditModal';
 
 interface CardProps{
@@ -80,8 +80,8 @@ export default function AuthorsList(){
     return (
         <div>
             <div className="space-y-4">
-                <div>
-                    <label htmlFor="buscar" className="block text-sm font-medium text-slate-700"> Buscar autor por nombre</label>
+                <div className="relative">
+                    <br/>
                     <input
                         id="buscar"
                         name="buscar"
@@ -89,8 +89,13 @@ export default function AuthorsList(){
                         value={searchedName}
                         onChange= {handleChange}
                         placeholder='Busque los autores por nombre'
-                        className="mt-1 w-full rounded-md border border-slate-200 px-3 py-2 bg-transparent"
+                        className="w-full rounded-full border border-gray-200 bg-white px-5 py-3 pr-20 text-base shadow-md transition-shadow duration-200 hover:shadow-lg focus:border-gray-300 focus:outline-none"
                         />
+                    <div className="absolute right-5 top-6 mr-4 mt-3 flex items-center">
+                        <button type="submit" className="text-gray-400 hover:text-blue-600">
+                            <Search size={20} />{' '}
+                        </button>{' '}
+                    </div>
                 </div>
             </div>
             { filteredAuthors.length>0 &&
