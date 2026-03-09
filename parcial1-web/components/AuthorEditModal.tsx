@@ -11,7 +11,7 @@ interface AuthorEditModalProps{
 const AuthorEditModal = ({isOpen, handleClose, author}:AuthorEditModalProps) => {
   return (
     <Modal open={isOpen} onClose={handleClose}>
-        <AuthorForms/>
+        <AuthorForms authorToEdit={author}/>
 
     </Modal>
   )

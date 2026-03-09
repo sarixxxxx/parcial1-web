@@ -1,6 +1,6 @@
 "use client";
 import { use, useState } from 'react';
-import { useAuthors } from './AuthorsContext'
+import { Author, useAuthors } from './AuthorsContext'
 import { Trash2 , Pencil} from 'lucide-react';
 import AuthorEditModal from './AuthorEditModal';
 
@@ -49,9 +49,9 @@ export default function AuthorsList(){
         setSelectedAuthor(null)
     }
 
-    const handleOpen=(idAuthor:number) =>{
+    const handleOpen=(author:Author) =>{
         setOpen(true);
-        setSelectedAuthor(idAuthor); 
+        setSelectedAuthor(author); 
         console.log("id autor", selectedAuthor);
     }
 
@@ -63,7 +63,7 @@ export default function AuthorsList(){
                 name={author.name}
                 description={author.description}
                 onDelete={() => deleteAuthor(author.id)}
-                handleOpen={() => handleOpen(author.id)}
+                handleOpen={() => handleOpen(author)}
             />
         )
     );
@@ -71,10 +71,13 @@ export default function AuthorsList(){
     return (
         <div>
             <div className="cards-container">{listAuthors}</div>
-            <AuthorEditModal 
-            isOpen={open}
-            handleClose={handleClose}
-            />
+            {open && selectedAuthor !== null && (
+                <AuthorEditModal
+                    isOpen={open}
+                    handleClose={handleClose}
+                    author={selectedAuthor}
+                />
+            )}
         </div>
     )
 }

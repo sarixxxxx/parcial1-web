@@ -1,8 +1,7 @@
 "use client";
 /* eslint-disable @next/next/no-img-element */
-import {useState} from "react";
-import { useAuthors } from './AuthorsContext'
-import { navigate } from "next/dist/client/components/segment-cache/navigation";
+import {useEffect, useState} from "react";
+import { Author, useAuthors } from './AuthorsContext'
 import { useRouter } from "next/navigation";
 
 type Errors = {
@@ -17,8 +16,20 @@ type Form = {
     description: string, 
     image: string 
 }
-export default function AuthorForms(){
-    const [form, setForm]= useState<Form>({birthDate: "",name: "", description: "", image:"" });
+type AuthorFormsProps = {
+    authorToEdit?: Author
+}
+
+
+export default function AuthorForms({authorToEdit}: AuthorFormsProps){
+    const [form, setForm] = useState<Form>(() => ({
+        birthDate: authorToEdit?.birthDate ?? "",
+        name: authorToEdit?.name ?? "",
+        description: authorToEdit?.description ?? "",
+        image: authorToEdit?.image ?? ""
+    }));
+    
+        
     const [errors, setErrors]= useState<Errors>({});
     const [touched, setTouched] = useState<{ name?: boolean; birthDate?: boolean; description?: boolean; image?: boolean}>({});
     const { authors, editAuthor, addAuthor} = useAuthors();
@@ -30,13 +41,25 @@ export default function AuthorForms(){
 
     function handleSubmit(e:React.FormEvent){
         e.preventDefault();
-        addAuthor(
-            authors.length+1,
-            form.birthDate,
-            form.name,
-            form.description,
-            form.image
-        );
+        
+        if(authorToEdit===undefined) 
+            {addAuthor(
+                authors.length+1,
+                form.birthDate,
+                form.name,
+                form.description,
+                form.image
+            );
+        }
+        else{
+            editAuthor(
+                authorToEdit.id,
+                form.birthDate,
+                form.name,
+                form.description,
+                form.image
+            )
+        }
 
         alert(`Se ha guardado la información para el autor ${form.name}`)
         router.push("/authors");
