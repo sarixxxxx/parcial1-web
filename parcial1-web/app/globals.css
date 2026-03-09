@@ -5,22 +5,62 @@
   --foreground: #171717;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+/* CONTENEDOR DE TODAS LAS CARDS */
+
+.cards-container{
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 24px;
+  padding: 30px;
+}
+
+/* CARD */
+
+.card{
+  border-radius: 14px;
+  background: white;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+  padding: 24px;
+  text-align: center;
+  transition: all 0.25s ease;
+}
+
+/* efecto hover */
+
+.card:hover{
+  transform: translateY(-6px);
+  box-shadow: 0 12px 26px rgba(0,0,0,0.12);
+}
+
+/* imagen */
+
+.card img{
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 50%;
+  margin-bottom: 16px;
+}
+
+/* titulo */
+
+.card h2{
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: hsl(0,0%,20%);
+}
+
+/* texto */
+
+.card p{
+  font-size: 0.9rem;
+  color: hsl(0,0%,40%);
+  line-height: 1.4;
 }

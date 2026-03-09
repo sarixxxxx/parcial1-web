@@ -9,6 +9,7 @@ const NavBar= () =>{
                     <Link href="/authors" className="px-3 hover:text-gray-300"> Autores</Link>
                     <Link href="/crear" className="px-3 hover:text-gray-300"> Crear Autor</Link>
                 </nav>
+                
             </div>
         </header>
     );
