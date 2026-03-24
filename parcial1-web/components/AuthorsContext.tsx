@@ -1,13 +1,12 @@
 "use client";
 import { useContext, useState, ReactNode, useEffect} from "react";
 import { createContext } from "react";
-import AuthorsService from "@/services/AuthorsService";
-export interface Editorial {
+ interface Editorial {
     id: number;
     name: string;
 }
 
-export interface Book{
+ interface Book{
     id: number;
     name: string;
     isbn: string;
@@ -57,7 +56,8 @@ const AuthorsProvider =({ children }: AuthorsProviderProps) =>{
     const [authors, setAuthors]= useState<Author[]>([]);
 
     useEffect(() =>{
-        AuthorsService.getAuthors().then(
+        fetch("http://127.0.0.1:8080/api/authors")
+            .then(response => response.json()).then(
             (data)=> {
                 console.log("tamaño",authors.length)
                 setAuthors(data);

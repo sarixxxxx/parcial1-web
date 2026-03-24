@@ -15,7 +15,7 @@ function Card({image, name, description, onDelete, handleOpen}: CardProps){
     return(
         <div className="card">
             <img src={image} alt="imagen del autor" />
-            <h2> {name}</h2>
+            <h2>  {name}</h2>
             <p> {description}</p>
             <div className="flex justify-end pt-2 space-x-2">
                     <button
@@ -82,6 +82,7 @@ export default function AuthorsList(){
             <div className="space-y-4">
                 <div className="relative">
                     <br/>
+                        <label htmlFor="search" className="block text-sm font-medium text-slate-700">Buscar </label>
                     <input
                         id="buscar"
                         name="buscar"
